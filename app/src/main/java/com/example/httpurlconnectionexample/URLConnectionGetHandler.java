@@ -1,6 +1,11 @@
 package com.example.httpurlconnectionexample;
 
 import android.os.AsyncTask;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.stream.Stream;
 
 public class URLConnectionGetHandler extends AsyncTask<Object, Void, Object> {
     DataDownloadListener dataDownloadListener;
@@ -25,11 +31,7 @@ public class URLConnectionGetHandler extends AsyncTask<Object, Void, Object> {
             urlConnection = (HttpURLConnection) url.openConnection();
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String result = null;
-            try {
-                result = br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            result = br.readLine();
             return result;
         } catch (MalformedURLException e) {
             e.printStackTrace();
