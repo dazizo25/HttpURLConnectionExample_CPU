@@ -3,6 +3,9 @@ package com.example.httpurlconnectionexample;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -16,6 +19,31 @@ public class MainActivity extends AppCompatActivity {
 
     String url_api_view = "http://csucl.com/csucl.com/glynn/cpu/api.php?apicall=view";
 
+    String json_string = "{\n" +
+            "  \"title\":\"JSONParserTutorial\",\n" +
+            "  \"array\":[\n" +
+            "    {\n" +
+            "    \"company\":\"Google\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"company\":\"Facebook\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "    \"company\":\"LinkedIn\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"company\" : \"Microsoft\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"company\": \"Apple\"\n" +
+            "    }\n" +
+            "    ],\n" +
+            "    \"nested\":{\n" +
+            "    \"flag\": true,\n" +
+            "    \"random_number\":1\n" +
+            "    }\n" +
+            "}";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 // handler result
                 Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
 
-                List<Lead> leads = jsonDecoder(data);
-                String s = null;
-                for (Lead l: leads) {
-                    s = s + l.source + ", ";
+                jsonDecoder(json_string);
                 }
-                Toast.makeText(MainActivity.this, "Leads: "+ s, Toast.LENGTH_SHORT).show();
-            }
 
             @Override
             public void dataDownloadFailed() {
@@ -43,41 +66,41 @@ public class MainActivity extends AppCompatActivity {
         uRLConnectionGetHandler.execute(url_api_view);
     }
 
-    public List<Lead> jsonDecoder(Object data) {
-        String jsonString = data.toString();
-        jsonString = jsonString.substring(jsonString.indexOf("{"));
-        List<Lead> leads = new ArrayList<>();
-        JSONObject jsonObj = null;
+    public void jsonDecoder(String json_string) {
 
         try {
-            jsonObj = new JSONObject(jsonString);
 
-            // A JSON array with the the names of all the cities
-            JSONArray source_list = jsonObj.names();
-            Toast.makeText(this, source_list.toString(), Toast.LENGTH_SHORT).show();
-            for (int i = 0; i < jsonObj.length(); i++) {
-                String lead = null;
-                try {
-                    lead = source_list.getString(i);
-                    Toast.makeText(this, lead.toString(), Toast.LENGTH_SHORT).show();
-                    JSONObject jsonSource = jsonObj.getJSONObject(lead);
-                    JSONObject jsonPosition = jsonSource.getJSONObject("leads");
+            ListView listView = (ListView) findViewById(R.id.listView);
 
-                    try {
-                        leads.add(new Lead(
-                                jsonPosition.getString("source"),
-                                jsonPosition.getString("status")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            List<String> items = new ArrayList<>();
+            JSONObject root = new JSONObject(json_string);
+
+            JSONArray array= root.getJSONArray("array");
+
+            this.setTitle(root.getString("title"));
+
+            for(int i=0;i<array.length();i++)
+            {
+                JSONObject object= array.getJSONObject(i);
+                items.add(object.getString("company"));
             }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, items);
+
+            if (listView != null) {
+                listView.setAdapter(adapter);
+            }
+
+            JSONObject nested= root.getJSONObject("nested");
+            Log.d("TAG","flag value "+nested.getBoolean("flag"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return leads;
+
     }
+
+
 
 }
