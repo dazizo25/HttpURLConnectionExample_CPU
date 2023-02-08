@@ -19,31 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     String url_api_view = "http://csucl.com/csucl.com/glynn/cpu/api.php?apicall=view";
 
-    String json_string = "{\n" +
-            "  \"title\":\"JSONParserTutorial\",\n" +
-            "  \"array\":[\n" +
-            "    {\n" +
-            "    \"company\":\"Google\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"company\":\"Facebook\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "    \"company\":\"LinkedIn\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"company\" : \"Microsoft\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"company\": \"Apple\"\n" +
-            "    }\n" +
-            "    ],\n" +
-            "    \"nested\":{\n" +
-            "    \"flag\": true,\n" +
-            "    \"random_number\":1\n" +
-            "    }\n" +
-            "}";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +28,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void dataDownloadedSuccessfully(Object data) {
                 // handler result
-                Toast.makeText(MainActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
-
-                jsonDecoder(json_string);
-                }
+                jsonDecoder(data.toString());
+            }
 
             @Override
             public void dataDownloadFailed() {
@@ -69,20 +42,22 @@ public class MainActivity extends AppCompatActivity {
     public void jsonDecoder(String json_string) {
 
         try {
-
+            json_string = json_string.substring(json_string.indexOf("{"));
+            Toast.makeText(this, json_string, Toast.LENGTH_LONG).show();
             ListView listView = (ListView) findViewById(R.id.listView);
 
             List<String> items = new ArrayList<>();
             JSONObject root = new JSONObject(json_string);
 
-            JSONArray array= root.getJSONArray("array");
+            JSONArray array = root.getJSONArray("leads");
 
-            this.setTitle(root.getString("title"));
-
-            for(int i=0;i<array.length();i++)
-            {
-                JSONObject object= array.getJSONObject(i);
-                items.add(object.getString("company"));
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = array.getJSONObject(i);
+                Lead newLead = new Lead(
+                        object.getString("id"),
+                        object.getString("source"),
+                        object.getString("status"));
+                items.add(newLead.toString());
             }
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -92,15 +67,11 @@ public class MainActivity extends AppCompatActivity {
                 listView.setAdapter(adapter);
             }
 
-            JSONObject nested= root.getJSONObject("nested");
-            Log.d("TAG","flag value "+nested.getBoolean("flag"));
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
     }
-
 
 
 }

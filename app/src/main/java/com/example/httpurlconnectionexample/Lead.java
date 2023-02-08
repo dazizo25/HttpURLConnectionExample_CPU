@@ -13,8 +13,19 @@ public class Lead {
     String company_id;
 
 
-    public Lead(String source, String status) {
-        this.source=source;
-        this.status=status;
+    public Lead(String id, String source, String status) {
+        this.id = id;
+        this.source = source;
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Lead{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", source='").append(source).append('\'');
+        sb.append(", status='").append(status).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }
