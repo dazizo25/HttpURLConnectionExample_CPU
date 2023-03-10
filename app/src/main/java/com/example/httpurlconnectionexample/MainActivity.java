@@ -18,11 +18,16 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     String url_api_view = "http://csucl.com/csucl.com/glynn/cpu/api.php?apicall=view";
+    String url_insert_lead = "http://csucl.com/csucl.com/glynn/cpu/insert_lead.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        InsertLead();
+    }
+
+    private void ViewLeads() {
         URLConnectionGetHandler uRLConnectionGetHandler = new URLConnectionGetHandler();
         uRLConnectionGetHandler.setDataDownloadListener(new URLConnectionGetHandler.DataDownloadListener() {
             @Override
@@ -38,7 +43,11 @@ public class MainActivity extends AppCompatActivity {
         });
         uRLConnectionGetHandler.execute(url_api_view);
     }
+    private void InsertLead() {
+        URLConnectionPostHandler uRLConnectionPostHandler = new URLConnectionPostHandler();
 
+        uRLConnectionPostHandler.execute(url_insert_lead);
+    }
     public void jsonDecoder(String json_string) {
 
         try {
