@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void InsertLead() {
         URLConnectionPostHandler uRLConnectionPostHandler = new URLConnectionPostHandler();
-
-        uRLConnectionPostHandler.execute(url_insert_lead);
+        uRLConnectionPostHandler.execute(url_insert_lead, "source=test3&status=test3&typeoflead=test3");
     }
     public void jsonDecoder(String json_string) {
 

@@ -24,9 +24,7 @@ public class URLConnectionPostHandler extends AsyncTask<Object, String, Object> 
             urlConnection.setDoOutput(true);
 
             try (OutputStream os = urlConnection.getOutputStream()) {
-                os.write("source=test1".getBytes());
-                os.write("&".getBytes());
-                os.write("status=test2".getBytes());
+                os.write(param[1].toString().getBytes());
                 os.flush();
                 os.close();
             }
