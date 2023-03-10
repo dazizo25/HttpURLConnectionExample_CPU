@@ -13,7 +13,7 @@ import java.util.List;
 
 public class NewLeadActivity extends AppCompatActivity {
 
-    String url_insert_lead = "http://csucl.com/csucl.com/glynn/cpu/insert_lead.php";
+    String url_insert_lead = "http://csucl.com/csucl.com/glynn/cpu/api.php?apicall=insert";
     Spinner spinner_source, spinner_status, spinner_type;
 
     Button button_submit;
