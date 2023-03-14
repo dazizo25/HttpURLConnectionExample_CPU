@@ -2,11 +2,15 @@ package com.example.httpurlconnectionexample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,13 +22,27 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     String url_api_view = "http://csucl.com/csucl.com/glynn/cpu/api.php?apicall=view";
-    String url_insert_lead = "http://csucl.com/csucl.com/glynn/cpu/api.php?apicall=insert";
+
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        InsertLead();
+
+        fab = findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), NewLeadActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void onResume() {
+        super.onResume();
+            ViewLeads();
     }
 
     private void ViewLeads() {
@@ -38,20 +56,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void dataDownloadFailed() {
-                // handler failure (e.g network not available etc.)
+                Toast.makeText(MainActivity.this, "No records found.", Toast.LENGTH_SHORT).show();
+
             }
         });
         uRLConnectionGetHandler.execute(url_api_view);
     }
-    private void InsertLead() {
-        URLConnectionPostHandler uRLConnectionPostHandler = new URLConnectionPostHandler();
-        uRLConnectionPostHandler.execute(url_insert_lead, "source=test3&status=test3&typeoflead=test3");
-    }
+
     public void jsonDecoder(String json_string) {
 
         try {
             json_string = json_string.substring(json_string.indexOf("{"));
-            Toast.makeText(this, json_string, Toast.LENGTH_LONG).show();
             ListView listView = (ListView) findViewById(R.id.listView);
 
             List<String> items = new ArrayList<>();
@@ -64,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
                 Lead newLead = new Lead(
                         object.getString("id"),
                         object.getString("source"),
-                        object.getString("status"));
+                        object.getString("status"),
+                        object.getString("type"));
                 items.add(newLead.toString());
             }
 
@@ -78,8 +94,5 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
-
-
 }

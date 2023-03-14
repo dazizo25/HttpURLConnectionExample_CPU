@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,33 @@ public class NewLeadActivity extends AppCompatActivity {
         spinner_status = findViewById(R.id.spinner_status);
         spinner_type = findViewById(R.id.spinner_type);
 
+        populateSpinners();
+
+        //button
+        button_submit = findViewById(R.id.button_submit);
+        button_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                URLConnectionPostHandler uRLConnectionPostHandler = new URLConnectionPostHandler();
+                uRLConnectionPostHandler.setDataDownloadListener(new URLConnectionPostHandler.DataDownloadListener() {
+                    @Override
+                    public void dataDownloadedSuccessfully(Object data) {
+                        // handler result
+                        //TODO: Write a check for successful result
+                        Toast.makeText(NewLeadActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void dataDownloadFailed() {
+                        Toast.makeText(NewLeadActivity.this, "Record not added.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                uRLConnectionPostHandler.execute(url_insert_lead, generateParameters());
+            }
+        });
+    }
+
+    private void populateSpinners() {
         List<String> sources = new ArrayList<String>();
         sources.add("website");
         sources.add("telephone");
@@ -55,16 +83,6 @@ public class NewLeadActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapterTypes = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, types);
         dataAdapterTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_type.setAdapter(dataAdapterTypes);
-
-        //button
-        button_submit = findViewById(R.id.button_submit);
-        button_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                URLConnectionPostHandler uRLConnectionPostHandler = new URLConnectionPostHandler();
-                uRLConnectionPostHandler.execute(url_insert_lead, generateParameters());
-            }
-        });
     }
 
     private String generateParameters() {
