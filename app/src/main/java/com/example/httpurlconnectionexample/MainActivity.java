@@ -46,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
         uRLConnectionGetHandler.setDataDownloadListener(new URLConnectionGetHandler.DataDownloadListener() {
             @Override
             public void dataDownloadedSuccessfully(Object data) {
-                // handler result
                 ListView listView = (ListView) findViewById(R.id.listView);
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
-                        android.R.layout.simple_list_item_1, decodeJson((String) data));
+                        android.R.layout.simple_list_item_1, jsonDecoder((String) data));
 
                 if (listView != null) {
                     listView.setAdapter(adapter);
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         uRLConnectionGetHandler.execute(url_api_view);
     }
 
-    private List<String> decodeJson(String json_string) {
+    private List<String> jsonDecoder(String json_string) {
         try {
             json_string = json_string.substring(json_string.indexOf("{"));
 
