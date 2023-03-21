@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -42,16 +41,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-            ViewLeads();
-    }
 
-    private void ViewLeads() {
         URLConnectionGetHandler uRLConnectionGetHandler = new URLConnectionGetHandler();
         uRLConnectionGetHandler.setDataDownloadListener(new URLConnectionGetHandler.DataDownloadListener() {
             @Override
             public void dataDownloadedSuccessfully(Object data) {
                 // handler result
-                jsonDecoder(data.toString());
+                ListView listView = (ListView) findViewById(R.id.listView);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                        android.R.layout.simple_list_item_1, decodeJson((String) data));
+
+                if (listView != null) {
+                    listView.setAdapter(adapter);
+                }
             }
 
             @Override
@@ -63,11 +66,9 @@ public class MainActivity extends AppCompatActivity {
         uRLConnectionGetHandler.execute(url_api_view);
     }
 
-    public void jsonDecoder(String json_string) {
-
+    private List<String> decodeJson(String json_string) {
         try {
             json_string = json_string.substring(json_string.indexOf("{"));
-            ListView listView = (ListView) findViewById(R.id.listView);
 
             List<String> items = new ArrayList<>();
             JSONObject root = new JSONObject(json_string);
@@ -83,16 +84,11 @@ public class MainActivity extends AppCompatActivity {
                         object.getString("type"));
                 items.add(newLead.toString());
             }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, items);
-
-            if (listView != null) {
-                listView.setAdapter(adapter);
-            }
+            return items;
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
