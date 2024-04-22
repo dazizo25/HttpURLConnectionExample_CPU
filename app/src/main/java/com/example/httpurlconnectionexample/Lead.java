@@ -52,6 +52,34 @@ public class Lead {
     }
 
     /**
+     * Constructs a Lead object with the specified attributes.
+     *
+     * @param id                The unique identifier for the lead.
+     * @param source            The source of the lead.
+     * @param status            The current status of the lead.
+     * @param reason_disqualified The reason for disqualification (if any).
+     * @param type              The type of lead.
+     * @param vendor_id         The vendor identifier associated with the lead.
+     * @param linkedin          The LinkedIn profile URL of the lead.
+     * @param role              The role of the lead.
+     * @param rating            The rating of the lead.
+     * @param company_id        The identifier of the company associated with the lead.
+     */
+    public Lead(String id, String source, String status, String reason_disqualified, String type,
+                String vendor_id, String linkedin, String role, String rating, String company_id) {
+        this.id = id;
+        this.source = source;
+        this.status = status;
+        this.reason_disqualified = reason_disqualified;
+        this.type = type;
+        this.vendor_id = vendor_id;
+        this.linkedin = linkedin;
+        this.role = role;
+        this.rating = rating;
+        this.company_id = company_id;
+    }
+
+    /**
      * Returns a string representation of the Lead object.
      * This method is meant to provide a string representation of the Lead object for easy display or usage in other string-based functions.
      *
