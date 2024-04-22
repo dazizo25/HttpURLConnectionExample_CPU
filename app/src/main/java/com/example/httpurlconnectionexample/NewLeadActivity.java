@@ -14,7 +14,7 @@ import java.util.List;
 
 public class NewLeadActivity extends AppCompatActivity {
 
-    String url_insert_lead = "http://tutor.csucleeds.com/tutor/cpu/api.php?apicall=insert";
+    String url_insert_lead = "http://student01.csucleeds.com/student01/cpu/api.php?apicall=insert";
     Spinner spinner_source, spinner_status, spinner_type;
 
     Button button_submit;

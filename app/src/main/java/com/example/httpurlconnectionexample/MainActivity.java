@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    String url_api_view = "http://tutor.csucleeds.com/tutor/cpu/api.php?apicall=view";
+    String url_api_view = "http://student01.csucleeds.com/student01/cpu/api.php?apicall=view";
 
     FloatingActionButton fab;
 
