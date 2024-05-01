@@ -20,6 +20,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".NewContactActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
