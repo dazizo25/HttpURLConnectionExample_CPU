@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     String url_api_view = "http://student01.csucleeds.com/student01/cpu/api.php?apicall=view";
 
     FloatingActionButton fab;
-
+    Button buttonAddContact;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), NewLeadActivity.class);
                 startActivity(intent);
+
+
+            }
+        });
+
+        buttonAddContact = findViewById(R.id.button_add_contact);
+        buttonAddContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NewContactActivity.class));
             }
         });
     }

@@ -30,7 +30,7 @@ public class Lead {
     /** The role/title of the lead. */
     String role;
 
-    /** The rating assigned to the lead. */
+    // The rating assigned to the lead.
     String rating;
 
     /** The identifier of the company associated with the lead. */
