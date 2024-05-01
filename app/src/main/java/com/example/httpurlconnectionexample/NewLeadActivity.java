@@ -31,7 +31,7 @@ public class NewLeadActivity extends AppCompatActivity {
         populateSpinners();
 
         //button
-        button_submit = findViewById(R.id.button_submit);
+        button_submit = findViewById(R.id.lead_button_submit);
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
