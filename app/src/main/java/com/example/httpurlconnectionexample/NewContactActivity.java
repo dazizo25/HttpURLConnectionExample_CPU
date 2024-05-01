@@ -26,7 +26,7 @@ public class NewContactActivity extends AppCompatActivity {
     private EditText editTextAnnualRevenue;
     private Button buttonSubmit;
 
-    private String urlInsertContact = "http://your-api-endpoint.com/insert-contact";
+    private String urlInsertContact = "http://student01.csucleeds.com/student01/cpu/api.php?apicall=insert_contact";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class NewContactActivity extends AppCompatActivity {
                     @Override
                     public void dataDownloadedSuccessfully(Object data) {
                         Toast.makeText(NewContactActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                     @Override
@@ -70,7 +71,7 @@ public class NewContactActivity extends AppCompatActivity {
         editTextPostCode = findViewById(R.id.editText_postCode);
         editTextStatus = findViewById(R.id.editText_status);
         editTextAnnualRevenue = findViewById(R.id.editText_annualRevenue);
-        buttonSubmit = findViewById(R.id.button_submit);
+        buttonSubmit = findViewById(R.id.contact_button_submit);
     }
 
     private String generateParameters() {
