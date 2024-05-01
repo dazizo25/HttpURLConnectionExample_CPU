@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     String url_api_view = "http://student01.csucleeds.com/student01/cpu/api.php?apicall=view";
 
     FloatingActionButton fab;
-    Button buttonAddContact;
+    FloatingActionButton  buttonAddContact;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
