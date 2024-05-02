@@ -75,8 +75,10 @@ public class URLConnectionGetHandler extends AsyncTask<Object, Void, Object> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
+        }finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
         return null;
     }
