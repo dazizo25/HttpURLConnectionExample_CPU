@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         buttonAddContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewContactActivity.class));
-            }
+                Intent intent = new Intent(getBaseContext(), ViewContactActivity.class);
+                startActivity(intent);            }
         });
     }
 
