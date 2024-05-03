@@ -63,4 +63,49 @@ public class Contact {
                 '}';
     }
 
-}
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+
+    public String getContactName() {
+        return contactName;
+    }
+
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
