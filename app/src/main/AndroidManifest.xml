@@ -20,6 +20,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".ViewContactActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".NewContactActivity"
             android:exported="true">
         </activity>
@@ -31,6 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+    </application>
 </manifest>
