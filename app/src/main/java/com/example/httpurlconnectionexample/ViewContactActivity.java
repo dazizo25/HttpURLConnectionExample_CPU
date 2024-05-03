@@ -1,94 +1,114 @@
+package com.example.httpurlconnectionexample;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.httpurlconnectionexample.R;
-import com.example.httpurlconnectionexample.data.Contact;
-import com.example.httpurlconnectionexample.data.ContactRepository;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class ViewContactActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewContacts;
-    private ContactAdapter contactAdapter;
-    private ContactRepository contactRepository;
-
+    String url_api_view = "http://student01.csucleeds.com/student01/cpu/api.php?apicall=view_contact";
+    FloatingActionButton buttonAddContact;
+    FloatingActionButton  buttonViewLeads;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_contact);
 
-        // Initialize the ContactRepository
-        contactRepository = new ContactRepository(this);
 
-        // Find the RecyclerView
-        recyclerViewContacts = findViewById(R.id.recyclerView_contacts);
-
-        // Set up the RecyclerView
-        recyclerViewContacts.setLayoutManager(new LinearLayoutManager(this));
-        contactAdapter = new ContactAdapter();
-        recyclerViewContacts.setAdapter(contactAdapter);
-
-        // Load the contacts
-        loadContacts();
-    }
-
-    private void loadContacts() {
-        List<Contact> contacts = contactRepository.getAllContacts();
-        contactAdapter.setContacts(contacts);
-    }
-
-    private class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
-
-        private List<Contact> contacts;
-
-        void setContacts(List<Contact> contacts) {
-            this.contacts = contacts;
-            notifyDataSetChanged();
-        }
-
-        @NonNull
-        @Override
-        public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_contact, parent, false);
-            return new ContactViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-            Contact contact = contacts.get(position);
-            holder.bind(contact);
-        }
-
-        @Override
-        public int getItemCount() {
-            return contacts != null ? contacts.size() : 0;
-        }
-
-        class ContactViewHolder extends RecyclerView.ViewHolder {
-
-            private TextView textViewName;
-            private TextView textViewCompany;
-
-            ContactViewHolder(@NonNull View itemView) {
-                super(itemView);
-                textViewName = itemView.findViewById(R.id.textView_name);
-                textViewCompany = itemView.findViewById(R.id.textView_company);
+        buttonViewLeads = findViewById(R.id.button_lead_view);
+        buttonAddContact = findViewById(R.id.button_add_contact);
+        buttonAddContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ViewContactActivity.this, NewContactActivity.class));
+            }
+        });
+        buttonViewLeads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ViewContactActivity.this, MainActivity.class));
+                //startActivity(new Intent(ViewContactActivity.this, ViewLeadActivity.class));
             }
 
-            void bind(Contact contact) {
-                textViewName.setText(contact.getContactName());
-                textViewCompany.setText(contact.getCompanyName());
+        });
+
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        URLConnectionGetHandler uRLConnectionGetHandler = new URLConnectionGetHandler();
+        uRLConnectionGetHandler.setDataDownloadListener(new URLConnectionGetHandler.DataDownloadListener() {
+            @Override
+            public void dataDownloadedSuccessfully(Object data) {
+                ListView listView = (ListView) findViewById(R.id.listView);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ViewContactActivity.this,
+                        android.R.layout.simple_list_item_1, jsonDecoder((String) data));
+
+                if (listView != null) {
+                    listView.setAdapter(adapter);
+                }
             }
+
+            @Override
+            public void dataDownloadFailed() {
+                Toast.makeText(ViewContactActivity.this, "No records found.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        uRLConnectionGetHandler.execute(url_api_view);
+    }
+    private List<String> jsonDecoder(String json_string) {
+        try {
+            json_string = json_string.substring(json_string.indexOf("{"));
+
+            List<String> items = new ArrayList<>();
+            JSONObject root = new JSONObject(json_string);
+
+            JSONArray array = root.getJSONArray("contact");
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = array.getJSONObject(i);
+                Contact newContact = new Contact(
+                        object.getString("id"),
+                        object.getString("company_name"),
+                        object.getString("contact_name"),
+                        object.getString("title"),
+                        object.getString("role"),
+                        object.getString("phone_number"),
+                        object.getString("extension_number"),
+                        object.getString("mobile_number"),
+                        object.getString("email_address"),
+                        object.getString("street"),
+                        object.getString("city"),
+                        object.getString("county"),
+                        object.getString("postcode"),
+                        object.getString("status"),
+                        object.getString("annual_revenue"));
+                items.add(newContact.toString());
+            }
+            return items;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 }
