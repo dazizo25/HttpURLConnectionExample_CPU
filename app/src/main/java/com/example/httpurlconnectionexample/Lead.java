@@ -87,12 +87,11 @@ public class Lead {
      */
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Lead{");
-        sb.append("id='").append(id).append('\'');
-        sb.append(", source='").append(source).append('\'');
-        sb.append(", status='").append(status).append('\'');
-        sb.append(", type='").append(type).append('\'');
-        sb.append('}');
+        final StringBuffer sb = new StringBuffer("Lead Information: ").append('\n') ;
+        sb.append("Lead ID : ").append(id).append('\n') ;
+        sb.append("Lead source: ").append(source).append('\n');
+        sb.append("Lead status: ").append(status).append('\n');
+        sb.append("Lead type: ").append(type).append('\n');
         return sb.toString();
     }
 }

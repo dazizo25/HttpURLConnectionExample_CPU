@@ -91,23 +91,22 @@ public class Contact {
     // Override the toString() method to provide a string representation of the Contact object
     @Override
     public String toString() {
-        return "Contact{" +
-                "id='" + id + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", contactName='" + contactName + '\'' +
-                ", title='" + title + '\'' +
-                ", role='" + role + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", extensionNumber='" + extensionNumber + '\'' +
-                ", mobileNumber='" + mobileNumber + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", county='" + county + '\'' +
-                ", postCode='" + postCode + '\'' +
-                ", status='" + status + '\'' +
-                ", annualRevenue='" + annualRevenue + '\'' +
-                '}';
+        return "The Contact Information: " +'\n' +
+                "Contact id: " + id + '\n' +
+                "Company Name: " + companyName + '\n' +
+                "Contact Name: " + contactName + '\n' +
+                "Title: " + title + '\n' +
+                "Role: " + role + '\n' +
+                "Phone Number: " + phoneNumber + '\n' +
+                "Extension Number: " + extensionNumber + '\n' +
+                "Mobile Number: " + mobileNumber + '\n' +
+                "Email Address: " + emailAddress + '\n' +
+                "Street: " + street + '\n' +
+                "City: " + city + '\n' +
+                "County: " + county + '\n' +
+                "Post Code=: " + postCode + '\n' +
+                "Status: " + status + '\n' +
+                "Annual Revenue: " + annualRevenue + '\n';
     }
 
     // Getter method for the id field
