@@ -137,4 +137,4 @@ public class Contact {
 
     // Setter method for the contactName field
     public void setContactName(String contactName) {
-        this.contactName = contactName;
+        this.contactName = contactName;}}
