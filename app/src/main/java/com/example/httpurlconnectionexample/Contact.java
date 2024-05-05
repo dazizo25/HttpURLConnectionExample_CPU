@@ -104,7 +104,7 @@ public class Contact {
                 "Street: " + street + '\n' +
                 "City: " + city + '\n' +
                 "County: " + county + '\n' +
-                "Post Code=: " + postCode + '\n' +
+                "Post Code: " + postCode + '\n' +
                 "Status: " + status + '\n' +
                 "Annual Revenue: " + annualRevenue + '\n';
     }
