@@ -7,9 +7,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+// This code defines a class named NewContactActivity that extends the AppCompatActivity class.
+// The NewContactActivity class is responsible for creating a new contact in an Android application.
+// It initializes various EditText fields and a Button for user input, and sets up an onClickListener
+// for the Button to submit the contact information to a server using the URLConnectionPostHandler class.
+// The URLConnectionPostHandler class is an asynchronous task that sends an HTTP POST request to a server
+// with the contact information and receives a response. The response is then displayed to the user in a Toast message.
 
+/**
+ * This activity is responsible for creating a new contact.
+ */
 public class NewContactActivity extends AppCompatActivity {
 
+    // Declare variables for all the EditText fields
     private EditText editTextCompanyName;
     private EditText editTextContactName;
     private EditText editTextTitle;
@@ -26,6 +36,7 @@ public class NewContactActivity extends AppCompatActivity {
     private EditText editTextAnnualRevenue;
     private Button buttonSubmit;
 
+    // URL for inserting a new contact
     private String urlInsertContact = "http://student01.csucleeds.com/student01/cpu/api.php?apicall=insert_contact";
 
     @Override
@@ -33,29 +44,39 @@ public class NewContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_contact);
 
+        // Initialize all the views
         initViews();
 
+        // Set an onClick listener for the submit button
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create a new instance of URLConnectionPostHandler
                 URLConnectionPostHandler urlConnectionPostHandler = new URLConnectionPostHandler();
+                // Set a data download listener to handle the response
                 urlConnectionPostHandler.setDataDownloadListener(new URLConnectionPostHandler.DataDownloadListener() {
                     @Override
                     public void dataDownloadedSuccessfully(Object data) {
+                        // Show a toast message with the response data and finish the activity
                         Toast.makeText(NewContactActivity.this, data.toString(), Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
                     @Override
                     public void dataDownloadFailed() {
+                        // Show a toast message if the data download fails
                         Toast.makeText(NewContactActivity.this, "Record not added.", Toast.LENGTH_SHORT).show();
                     }
                 });
+                // Execute the URLConnectionPostHandler with the insert contact URL and generated parameters
                 urlConnectionPostHandler.execute(urlInsertContact, generateParameters());
             }
         });
     }
 
+    /**
+     * Initialize all the views in the activity.
+     */
     private void initViews() {
         editTextCompanyName = findViewById(R.id.editText_companyName);
         editTextContactName = findViewById(R.id.editText_contactName);
@@ -74,6 +95,11 @@ public class NewContactActivity extends AppCompatActivity {
         buttonSubmit = findViewById(R.id.contact_button_submit);
     }
 
+    /**
+     * Generate the parameters to be sent with the HTTP request.
+     *
+     * @return A string containing all the parameters.
+     */
     private String generateParameters() {
         StringBuilder paramBuilder = new StringBuilder();
         paramBuilder.append("companyName=").append(editTextCompanyName.getText().toString());
